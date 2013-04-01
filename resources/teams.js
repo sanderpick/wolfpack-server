@@ -1,5 +1,5 @@
 /*
- * user.js: Handling for the user resource.
+ * teams.js: Handling for the user resource.
  *
  */
 
@@ -10,29 +10,28 @@ _.mixin(require('underscore.string'));
 
 /* e.g.,
   {
-    id: 'eightysteele',
-    name: 'Aaron Steele',
-    resource: 'User'
+    id: 'dudes',
+    resource: 'Team',
+    user_ids: ['eightysteele']
   }
 */
 
-var User = module.exports = resourceful.define('user', function () {
+var Teams = module.exports = resourceful.define('teams', function () {
 
   // Specify a storage engine
   // this.use('mongoDb');
 
   // Specify some properties with validation
-  this.string('name');
-  this.string('email');
+  this.array('user_ids');
 
   // Specify timestamp properties
   this.timestamps();
 
 });
 
-// Create routes inside the `/user` scope.
-User.path = /\/user\/(\w+)/;
-User.handler = function () {
+// Create routes inside the `/team` scope.
+Teams.path = /\/teams\/(\w+)/;
+Teams.handler = function () {
 
   // The `this` context of the function passed to `.path()`
   // is the Router itself.
@@ -40,9 +39,9 @@ User.handler = function () {
   // create
   this.post(function (id) {
     this.res.writeHead(200, { 'Content-Type': 'text/plain' });
-    User.create({
+    Team.create({
       id: id,
-      name: this.req.body.name
+      user_ids: [this.req.body.user_id]
     }, _.bind(function (err, doc) {
       this.res.end(JSON.stringify(doc));
     }, this));
@@ -51,7 +50,7 @@ User.handler = function () {
   // read
   this.get(function (id) {
     this.res.writeHead(200, { 'Content-Type': 'text/plain' });
-    User.get({id: id}, _.bind(function (err, doc) {
+    Team.get({id: id}, _.bind(function (err, doc) {
       this.res.end(JSON.stringify(doc));
     }, this));
   });
@@ -59,7 +58,7 @@ User.handler = function () {
   // update
   this.put(function (id) {
     this.res.writeHead(200, { 'Content-Type': 'text/plain' });
-    User.update(this.req.body, _.bind(function (err, doc) {
+    Team.update(this.req.body, _.bind(function (err, doc) {
       this.res.end(JSON.stringify(doc));
     }, this));
   });
@@ -67,9 +66,15 @@ User.handler = function () {
   // delete
   this.delete(function (id) {
     this.res.writeHead(200, { 'Content-Type': 'text/plain' });
-    User.destroy({id: id}, _.bind(function (err) {
+    Team.destroy({id: id}, _.bind(function (err) {
       this.res.end(1);
     }, this));
+  });
+
+  // available
+  this.get(/\/available/, function (id) {
+    this.res.writeHead(200, { 'Content-Type': 'text/plain' });
+    this.res.end(JSON.stringify({available:true}));
   });
 
 }
