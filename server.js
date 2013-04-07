@@ -19,7 +19,7 @@ var argv = optimist
               + 'nodejitsu_sanderpick_nodejitsudb4770110165')
     .argv;
 
-// if (argv.dev)
+if (argv.dev)
   argv.db = 'mongodb://localhost:27018/wolfpack';
 
 if (argv._.length || argv.help) {
