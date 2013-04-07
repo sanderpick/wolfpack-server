@@ -112,13 +112,13 @@ if (!module.parent) {
       // util.log('Started email cron jobs.');
 
       // Listen for new mail.
-      notifier({
-        username: 'notifications@grr.io',
-        password: 'w0lfpackm0d3',
-        host: 'imap.gmail.com',
-        port: 993,
-        secure: true
-      }).on('mail', broadcastReply).start();
+      // notifier({
+      //   username: 'notifications@grr.io',
+      //   password: 'w0lfpackm0d3',
+      //   host: 'imap.gmail.com',
+      //   port: 993,
+      //   secure: true
+      // }).on('mail', broadcastReply).start();
 
     }
   );
