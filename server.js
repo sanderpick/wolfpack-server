@@ -29,8 +29,6 @@ if (argv._.length || argv.help) {
 
 // Module Dependencies
 var express = require('express');
-var cronJob = require('cron').CronJob;
-var notifier = require('mail-notifier');
 var path = require('path');
 var util = require('util');
 var Step = require('step');
@@ -38,7 +36,6 @@ var _ = require('underscore');
 _.mixin(require('underscore.string'));
 var Connection = require('./lib/db.js').Connection;
 var resources = require('./lib/resources');
-var email = require('./lib/email');
 
 // Setup Environments
 var app = express();
@@ -58,25 +55,25 @@ if ('development' == app.get('env')) {
 }
 
 // Handle email replies
-function broadcastReply(mail) {
-  var re = /^notifications\+([a-z0-9]{24})@grr\.io$/i;
-  var match;
-  _.each(mail.to, function (to) {
-    match = to.address.match(re) || match;
-  });
-  if (match) {
-    var last = mail.text.match(/^(.*wrote:\n)/im)[1];
-    var body = last ?
-              mail.text.substr(0, mail.text.indexOf(last)).trim():
-              mail.text;
-    packDb.collections.pack.findOne({_id: new ObjectID(match[1])},
-          function (err, p) {
-      email.reply(mail.from, p, function () {
-        // util.log('Emailed "' + p.name + '".');
-      });
-    });
-  }
-}
+// function broadcastReply(mail) {
+//   var re = /^notifications\+([a-z0-9]{24})@grr\.io$/i;
+//   var match;
+//   _.each(mail.to, function (to) {
+//     match = to.address.match(re) || match;
+//   });
+//   if (match) {
+//     var last = mail.text.match(/^(.*wrote:\n)/im)[1];
+//     var body = last ?
+//               mail.text.substr(0, mail.text.indexOf(last)).trim():
+//               mail.text;
+//     packDb.collections.pack.findOne({_id: new ObjectID(match[1])},
+//           function (err, p) {
+//       email.reply(mail.from, p, function () {
+//         // util.log('Emailed "' + p.name + '".');
+//       });
+//     });
+//   }
+// }
 
 if (!module.parent) {
   Step(
@@ -95,10 +92,11 @@ if (!module.parent) {
 
       // Init resources.
       resources.init(app, function (err) {
-        util.log(err || 'API server listening on port ' + app.get('port') + '.');
+        util.log(err || 'API server listening on port '
+                + app.get('port') + '.');
       });
 
-      // start the cron jobs
+      // // start the cron jobs
       // new cronJob('1 * * * * *', function () {
       //     db.collections.team.find({}).toArray(function (err, ps) {
       //       _.each(ps, function (p) {
