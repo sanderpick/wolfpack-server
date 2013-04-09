@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * server.js: Entry point for the Wolfpack Server and API.
+ * main.js: Entry point for the Wolfpack API and mail bot.
  *
  */
 
@@ -54,27 +54,6 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// Handle email replies
-// function broadcastReply(mail) {
-//   var re = /^notifications\+([a-z0-9]{24})@grr\.io$/i;
-//   var match;
-//   _.each(mail.to, function (to) {
-//     match = to.address.match(re) || match;
-//   });
-//   if (match) {
-//     var last = mail.text.match(/^(.*wrote:\n)/im)[1];
-//     var body = last ?
-//               mail.text.substr(0, mail.text.indexOf(last)).trim():
-//               mail.text;
-//     packDb.collections.pack.findOne({_id: new ObjectID(match[1])},
-//           function (err, p) {
-//       email.reply(mail.from, p, function () {
-//         // util.log('Emailed "' + p.name + '".');
-//       });
-//     });
-//   }
-// }
-
 if (!module.parent) {
   Step(
     function () {
@@ -92,31 +71,11 @@ if (!module.parent) {
 
       // Init resources.
       resources.init(app, function (err) {
-        util.log(err || 'API server listening on port '
-                + app.get('port') + '.');
+        util.log(err || 'API server listening on port ' + app.get('port'));
+
+        // Start the mail bot.
+        require('./lib/bot');
       });
-
-      // // start the cron jobs
-      // new cronJob('1 * * * * *', function () {
-      //     db.collections.team.find({}).toArray(function (err, ps) {
-      //       _.each(ps, function (p) {
-      //         email.morning(p, function () {
-      //           console.log('Emailed "' + p.name + '".');
-      //         });
-      //       });
-      //     });
-      //   },
-      //   function () {}, true, 'America/Los_Angeles');
-      // util.log('Started email cron jobs.');
-
-      // Listen for new mail.
-      // notifier({
-      //   username: 'notifications@grr.io',
-      //   password: 'w0lfpackm0d3',
-      //   host: 'imap.gmail.com',
-      //   port: 993,
-      //   secure: true
-      // }).on('mail', broadcastReply).start();
 
     }
   );
