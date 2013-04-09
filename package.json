@@ -5,7 +5,7 @@
     "api.grr.io"
   ],
   "subdomain": "wolfpack",
-  "version": "0.1.0-12",
+  "version": "0.1.0-13",
   "repository": {
     "type": "git",
     "url": "git://github.com/sanderpick/wolfpack-server.git"
