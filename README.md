@@ -7,4 +7,4 @@
     git clone git@github.com:sanderpick/wolfpack-server.git
     cd wolfpack-server
     npm install
-    node main.js --dev
+    node main.js
