@@ -8,8 +8,8 @@
 var optimist = require('optimist');
 var argv = optimist
     .describe('help', 'Get help')
-    .describe('dev', 'Environment')
-      .boolean('dev')
+    // .describe('dev', 'Environment')
+    //   .boolean('dev')
     .describe('port', 'Port to listen on')
       .default('port', 9090)
     .describe('db', 'MongoDb URL to connect to')
@@ -18,9 +18,6 @@ var argv = optimist
               + '@ds051947.mongolab.com:51947/'
               + 'nodejitsu_sanderpick_nodejitsudb4770110165')
     .argv;
-
-if (argv.dev)
-  argv.db = 'mongodb://localhost:27018/wolfpack';
 
 if (argv._.length || argv.help) {
   optimist.showHelp();
@@ -52,6 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
+  argv.db = 'mongodb://localhost:27018/wolfpack';
 }
 
 if (!module.parent) {
@@ -74,7 +72,7 @@ if (!module.parent) {
         util.log(err || 'API server listening on port ' + app.get('port'));
 
         // Start the mail bot.
-        require('./lib/bot');
+        require('./lib/bot').env = app.get('env');
       });
 
     }
