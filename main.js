@@ -72,7 +72,7 @@ if (!module.parent) {
         util.log(err || 'API server listening on port ' + app.get('port'));
 
         // Start the mail bot.
-        require('./lib/bot').env = app.get('env');
+        require('./lib/bot').init(app);
       });
 
     }
