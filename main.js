@@ -8,8 +8,6 @@
 var optimist = require('optimist');
 var argv = optimist
     .describe('help', 'Get help')
-    // .describe('dev', 'Environment')
-    //   .boolean('dev')
     .describe('port', 'Port to listen on')
       .default('port', 9090)
     .describe('db', 'MongoDb URL to connect to')
@@ -45,10 +43,10 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.errorHandler());
 
 // Development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
   argv.db = 'mongodb://localhost:27018/wolfpack';
 }
 
