@@ -11,10 +11,16 @@ var argv = optimist
     .describe('port', 'Port to listen on')
       .default('port', 9090)
     .describe('db', 'MongoDb URL to connect to')
-      .default('db', 'mongodb://nodejitsu_sanderpick:'
-              + '2tibce5mvs61d0s4373kknogu7'
-              + '@ds051947.mongolab.com:51947/'
-              + 'nodejitsu_sanderpick_nodejitsudb4770110165')
+      // .default('db', 'mongodb://nodejitsu_sanderpick:'
+      //         + '2tibce5mvs61d0s4373kknogu7'
+      //         + '@ds051947.mongolab.com:51947/'
+      //         + 'nodejitsu_sanderpick_nodejitsudb4770110165')
+      .default('db', 'mongodb://nodejitsu:'
+          + '0b476181d868a5b4b9516317e8240530'
+          + '@linus.mongohq.com:10020/'
+          + 'nodejitsudb3264726239')
+    .describe('index', 'Ensure indexes on MongoDB collections')
+      .boolean('index')
     .argv;
 
 if (argv._.length || argv.help) {
@@ -43,7 +49,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.errorHandler());
+app.use(express.errorHandler({showStack: true, dumpExceptions: true}));
 
 // Development only
 if ('development' == app.get('env')) {
@@ -53,7 +59,7 @@ if ('development' == app.get('env')) {
 if (!module.parent) {
   Step(
     function () {
-      new Connection(argv.db, {ensureIndexes: true}, this);
+      new Connection(argv.db, {ensureIndexes: argv.index}, this);
     },
     function (err, db) {
       if (err) {
