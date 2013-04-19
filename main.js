@@ -11,14 +11,10 @@ var argv = optimist
     .describe('port', 'Port to listen on')
       .default('port', 9090)
     .describe('db', 'MongoDb URL to connect to')
-      // .default('db', 'mongodb://nodejitsu_sanderpick:'
-      //         + '2tibce5mvs61d0s4373kknogu7'
-      //         + '@ds051947.mongolab.com:51947/'
-      //         + 'nodejitsu_sanderpick_nodejitsudb4770110165')
-      .default('db', 'mongodb://nodejitsu:'
-          + '0b476181d868a5b4b9516317e8240530'
-          + '@linus.mongohq.com:10020/'
-          + 'nodejitsudb3264726239')
+      .default('db', 'mongodb://nodejitsu_sanderpick:'
+              + '2tibce5mvs61d0s4373kknogu7'
+              + '@ds051947.mongolab.com:51947/'
+              + 'nodejitsu_sanderpick_nodejitsudb4770110165')
     .describe('index', 'Ensure indexes on MongoDB collections')
       .boolean('index')
     .argv;
