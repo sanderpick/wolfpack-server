@@ -59,7 +59,7 @@ if (!module.parent) {
     },
     function (err, db) {
       if (err) {
-        console.log(err);
+        util.log(err);
         process.exit(1);
         return;
       }
