@@ -21,7 +21,7 @@
     "cron": "~1.0.1",
     "express": "~3.1.1",
     "step": "0.0.5",
-    "mail-notifier2": "~0.1.0"
+    "mail-notifier2": "~0.1.0-1"
   },
   "engines": {
     "node": "~0.8.x"
