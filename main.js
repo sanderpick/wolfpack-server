@@ -48,18 +48,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.errorHandler({showStack: true, dumpExceptions: true}));
 
 // Development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   argv.db = 'mongodb://localhost:27018/wolfpack';
 }
 
 if (!module.parent) {
   Step(
     function () {
-      new Connection(argv.db, {ensureIndexes: argv.index}, this);
+      var ei = 'production' === app.get('env') || argv.index;
+      new Connection(argv.db, {ensureIndexes: ei}, this);
     },
     function (err, db) {
       if (err) {
-        util.log(err);
+        util.error(err);
         process.exit(1);
         return;
       }
@@ -69,7 +70,9 @@ if (!module.parent) {
 
       // Init resources.
       resources.init(app, function (err) {
-        util.log(err || 'API server listening on port ' + app.get('port'));
+        if (err)
+          return util.error(err);
+        util.log('API server listening on port ' + app.get('port'));
 
         // Start the mail bot.
         require('./lib/bot').init(app);
