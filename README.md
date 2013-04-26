@@ -8,3 +8,18 @@
     cd wolfpack-server
     npm install
     node main.js
+
+## MongoDB Server
+
+You need to have MongoDB running on your local machine. 
+
+#### Installation 
+
+    brew update
+    brew install mongodb
+
+#### Starting MongoDB 
+
+    sudo touch /var/log/mongod.log
+	sudo mkdir -p /data/db
+	sudo mongod --fork --logpath /var/log/mongod.log
