@@ -18,8 +18,11 @@ You need to have MongoDB running on your local machine.
     brew update
     brew install mongodb
 
-#### Starting MongoDB 
+##### Prepare for db
 
     sudo touch /var/log/mongod.log
 	sudo mkdir -p /data/db
+	
+#### Starting MongoDB 
+
 	sudo mongod --fork --logpath /var/log/mongod.log
