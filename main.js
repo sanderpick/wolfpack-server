@@ -49,7 +49,7 @@ app.use(express.errorHandler({showStack: true, dumpExceptions: true}));
 
 // Development only
 if ('development' === app.get('env')) {
-  argv.db = 'mongodb://localhost:27018/wolfpack';
+  argv.db = 'mongodb://localhost:27017/wolfpack';
 }
 
 if (!module.parent) {
