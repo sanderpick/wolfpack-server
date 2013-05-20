@@ -5,7 +5,7 @@
     "api.grr.io"
   ],
   "subdomain": "wolfpack",
-  "version": "0.1.0-20",
+  "version": "0.1.0-25",
   "repository": {
     "type": "git",
     "url": "git://github.com/sanderpick/wolfpack-server.git"
@@ -21,7 +21,7 @@
     "cron": "~1.0.1",
     "express": "~3.1.1",
     "step": "0.0.5",
-    "mail-notifier2": "~0.1.0"
+    "mail-notifier2": "~0.1.0-2"
   },
   "engines": {
     "node": "~0.8.x"
