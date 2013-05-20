@@ -1,0 +1,18 @@
+each team in teams
+  span(style="font-size:90%;color:#808080;") ---------- from 
+  span(style="font-size:90%;color:#808080;font-weight:bold;") #{team.name}
+  span(style="font-size:90%;color:#808080;") ,
+  each mail in team.mails
+    br
+    br
+    span(style="font-size:80%;color:#808080;")
+      | #{mail.user.username} says,
+    br
+    br
+    | !{mail.body.replace(/\n/g, '<br/>')}
+  br
+  br
+  br
+span(style="font-size:80%;color:#808080;") _
+br
+span(style="font-size:80%;color:#808080;") Just reply to this email.
